@@ -1,0 +1,26 @@
+name: Deploy Azure resources
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Azure PowerShell
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true
+
+    - name: Run PowerShell Script
+      shell: pwsh
+      run: |
+        ./scripts/Deploy-Resources.ps1 -ResourceGroupName "Bicep-Workshop-WRO"
