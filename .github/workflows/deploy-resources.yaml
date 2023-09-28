@@ -20,7 +20,9 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         enable-AzPSSession: true
 
-    - name: Run PowerShell Script
-      shell: pwsh
-      run: |
-        ./scripts/Deploy-Resources.ps1 -ResourceGroupName "Bicep-Workshop-WRO"
+    - name: Set up Azure PowerShell module
+      uses: azure/powershell@v1
+      with:
+        azPSVersion: latest
+        inlineScript: |
+            ./scripts/Deploy-Resources.ps1 -ResourceGroupName "Bicep-Workshop-WRO"
